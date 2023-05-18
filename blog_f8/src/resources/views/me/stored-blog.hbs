@@ -1,0 +1,73 @@
+<div class="mt-4">
+    <h3>My Blogs</h3>
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Slug</th>
+                <th scope="col">Created at</th>
+                <th scope="col">Do?</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {{#each blogs}}
+            <tr>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{ this.name }}</td>
+                <td>{{ this.description }}</td>
+                <td>{{ this.slug }}</td>
+                <td>{{ this.createdAt }}</td>
+                <td>
+                    <a href="/blogs/{{this._id}}/edit" class="btn btn-warning">Edit</a>
+                    <a href="/blogs/{{this._id}}/delete" class="btn btn-danger" data-bs-toggle="modal"
+                        data-id="{{this._id}}" data-bs-target="#deleteModal">Delete</a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+                <td colspan="5" class="text-center">
+                    You have no blogs. <a href="/blogs/create">Write blog here.</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<div id="deleteModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Notice</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Delete it?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="btnDelete" type="button" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form name="deleteFormBlog"  method="POST"></form>
+
+
+<script>
+    var exampleModal = document.getElementById('deleteModal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var blogId = button.getAttribute('data-id');
+        var btnDeleteBlogs = document.getElementById('btnDelete');
+        var deleteForm = document.forms['deleteFormBlog'];
+        btnDeleteBlogs.onclick = function() {
+            deleteForm.action = '/blogs/' + blogId + '?_method=DELETE';
+            deleteForm.submit();
+        }
+    })
+</script>

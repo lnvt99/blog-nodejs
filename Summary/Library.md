@@ -1,0 +1,5 @@
+- expressjs
+- nodemon: automatically restarting the node application when file changes in the directory are detected.
+- morgan: HTTP request logger for node.js
+- node-sass
+- Prettier, lint-staged, husky
